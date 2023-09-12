@@ -375,7 +375,7 @@ export const insertEdge = function (elem, e, edge, clusterDb, diagramType, graph
   const tail = graph.node(e.v);
   var head = graph.node(e.w);
 
-  log.info('abc88 InsertEdge: ', edge);
+    log.warn('abc88 InsertEdge: ', edge, "v:__", e.v, e.w, head, tail, JSON.stringify(edge.points));
   if (head.intersect && tail.intersect) {
     points = points.slice(1, edge.points.length - 1);
     points.unshift(tail.intersect(points[0]));
@@ -388,7 +388,7 @@ export const insertEdge = function (elem, e, edge, clusterDb, diagramType, graph
     points.push(head.intersect(points[points.length - 1]));
   }
   if (edge.toCluster) {
-    log.info('to cluster abc88', clusterDb[edge.toCluster]);
+    log.warn('to cluster abc88', clusterDb[edge.toCluster]);
     points = cutPathAtIntersect(edge.points, clusterDb[edge.toCluster].node);
     // log.trace('edge', edge);
     // points = [];
@@ -425,7 +425,7 @@ export const insertEdge = function (elem, e, edge, clusterDb, diagramType, graph
   }
 
   if (edge.fromCluster) {
-    log.info('from cluster abc88', clusterDb[edge.fromCluster]);
+    log.warn('from cluster abc88', clusterDb[edge.fromCluster]);
     points = cutPathAtIntersect(points.reverse(), clusterDb[edge.fromCluster].node).reverse();
 
     pointsHasChanged = true;

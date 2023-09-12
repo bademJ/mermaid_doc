@@ -1,0 +1,164 @@
+/* Reset some default browser styles */
+body, h1, h2, p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set a minimum height for the body to ensure content is visible */
+body {
+  min-height: 100vh;
+}
+
+/* Style the container of BPMN shapes */
+.bpmn-concepts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
+
+/* Style individual BPMN shape cards */
+.bpmn-shape {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px;
+  padding: 20px;
+  width: 250px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out; /* Add a transform effect on hover */
+}
+
+/* Change color and scale on hover for BPMN shape cards */
+.bpmn-shape:hover {
+  background-color: #f5f5f5;
+  transform: scale(1.05);
+}
+
+/* Style BPMN icons */
+.bpmn-icon {
+  font-size: 48px;
+  color: #007BFF;
+  margin-bottom: 10px;
+}
+
+/* Style BPMN shape names */
+.shape-name {
+  font-size: 24px;
+  color: #333; /* Change text color */
+}
+
+/* Style BPMN shape descriptions */
+.shape-description {
+  font-size: 16px;
+  color: #888;
+}
+
+/* Style the "About BPMN" section */
+.bpmn-explanation {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the title in the "About BPMN" section */
+.explanation-title {
+  font-size: 28px;
+  color: #007BFF;
+}
+
+/* Style text in the "About BPMN" section */
+.explanation-text {
+  font-size: 18px;
+  margin-top: 10px;
+  color: #444;
+}
+
+/* Style the "Demo" button */
+.demo-button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease; /* Add transition */
+}
+
+/* Change button color on hover */
+.demo-button:hover {
+  background-color: #0056b3;
+}
+
+/* Style the navigation bar */
+nav {
+  background-color: #007BFF;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* Style navigation links */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* Style the header */
+header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Style the header title */
+.header-title {
+  font-size: 36px;
+  font-family: 'Open Sans', Arial, sans-serif; /* Use Google Font */
+  color: #007BFF; /* Change title color */
+}
+
+/* Style the header subtitle */
+.header-subtitle {
+  font-size: 18px;
+  color: #888;
+}
+
+/* Style the footer */
+footer {
+  background-color: #007BFF;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Style footer links */
+.footer-links {
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 24px;
+}
+
+/* Add your additional styles here */

@@ -7,6 +7,7 @@ import circle from './intersect-circle.js';
 import ellipse from './intersect-ellipse.js';
 import polygon from './intersect-polygon.js';
 import rect from './intersect-rect.js';
+import costumeRect from './intersect-costume-rect.js';
 
 export default {
   node,
@@ -14,4 +15,5 @@ export default {
   ellipse,
   polygon,
   rect,
+  costumeRect,
 };

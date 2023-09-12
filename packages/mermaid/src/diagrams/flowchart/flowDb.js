@@ -24,6 +24,7 @@ let subGraphs = [];
 let subGraphLookup = {};
 let tooltips = {};
 let subCount = 0;
+let lineCount = new Map();
 let firstGraphFlag = true;
 let direction;
 
@@ -442,6 +443,7 @@ export const clear = function (ver = 'gen-1') {
   subGraphs = [];
   subGraphLookup = {};
   subCount = 0;
+  lineCount = new Map();
   tooltips = [];
   firstGraphFlag = true;
   version = ver;
@@ -455,6 +457,8 @@ export const defaultStyle = function () {
   return 'fill:#ffa;stroke: #f66; stroke-width: 3px; stroke-dasharray: 5, 5;fill:#ffa;stroke: #666;';
 };
 
+export let subPoolPar = [];
+
 /**
  * Clears the internal graph db so that a new graph can be parsed.
  *
@@ -462,12 +466,15 @@ export const defaultStyle = function () {
  * @param list
  * @param _title
  */
-export const addSubGraph = function (_id, list, _title) {
+export const addSubGraph = function (_id, list, _title, groupType) {
   let id = _id.text.trim();
   let title = _title.text;
   if (_id === _title && _title.text.match(/\s/)) {
     id = undefined;
   }
+  log.warn("kewkew subg", _id, ".", list, "?", _title, groupType)
+
+
   /** @param a */
   function uniq(a) {
     const prims = { boolean: {}, number: {}, string: {} };
@@ -495,18 +502,30 @@ export const addSubGraph = function (_id, list, _title) {
   let nodeList = [];
 
   const { nodeList: nl, dir } = uniq(nodeList.concat.apply(nodeList, list));
+  log.warn("node list inja", nodeList, ".", nl, "?", dir);
   nodeList = nl;
   if (version === 'gen-1') {
     for (let i = 0; i < nodeList.length; i++) {
       nodeList[i] = lookUpDomId(nodeList[i]);
     }
   }
+  for (let i = 0; i < nodeList.length; i++) {
+    log.warn("inja miam??",subPoolPar)
+
+    subPoolPar[nodeList[i]] = id
+  }
+  log.warn("subPolp",subPoolPar)
 
   id = id || 'subGraph' + subCount;
+  // lineCount
+  // lineCount.get("apples");
   // if (id[0].match(/\d/)) id = lookUpDomId(id);
   title = title || '';
   title = sanitizeText(title);
   subCount = subCount + 1;
+
+
+
   const subGraph = {
     id: id,
     nodes: nodeList,
@@ -514,9 +533,12 @@ export const addSubGraph = function (_id, list, _title) {
     classes: [],
     dir,
     labelType: _title.type,
+    groupType: groupType,
   };
 
   log.info('Adding', subGraph.id, subGraph.nodes, subGraph.dir);
+
+  log.warn('Adding pool mewwww', subGraph, subGraph.nodes, subGraph.dir, list, "?", _title.type, subCount);
 
   /** Deletes an id from all subgraphs */
   // const del = _id => {

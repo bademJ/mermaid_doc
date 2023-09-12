@@ -4,4 +4,5 @@ module.exports = {
   ellipse: require('./intersect-ellipse'),
   polygon: require('./intersect-polygon'),
   rect: require('./intersect-rect'),
+  costumeRect: require('./intersect-costume-rect'),
 };

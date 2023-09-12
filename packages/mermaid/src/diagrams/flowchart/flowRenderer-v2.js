@@ -1,4 +1,5 @@
 import * as graphlib from 'dagre-d3-es/src/graphlib/index.js';
+import * as graphlibJson from 'dagre-d3-es/src/graphlib/json.js';
 import { select, curveLinear, selectAll } from 'd3';
 
 import flowDb from './flowDb.js';
@@ -56,50 +57,119 @@ export const addVertices = function (vert, g, svgId, root, doc, diagObj) {
     // We create a SVG label, either by delegating to addHtmlLabel or manually
     let vertexNode;
     log.info('vertex', vertex, vertex.labelType);
-    if (vertex.labelType === 'markdown') {
-      log.info('vertex', vertex, vertex.labelType);
-    } else {
-      if (evaluate(getConfig().flowchart.htmlLabels)) {
-        // TODO: addHtmlLabel accepts a labelStyle. Do we possibly have that?
-        const node = {
-          label: vertexText.replace(
-            /fa[blrs]?:fa-[\w-]+/g,
-            (s) => `<i class='${s.replace(':', ' ')}'></i>`
-          ),
-        };
-        vertexNode = addHtmlLabel(svg, node).node();
-        vertexNode.parentNode.removeChild(vertexNode);
-      } else {
-        const svgLabel = doc.createElementNS('http://www.w3.org/2000/svg', 'text');
-        svgLabel.setAttribute('style', styles.labelStyle.replace('color:', 'fill:'));
-
-        const rows = vertexText.split(common.lineBreakRegex);
-
-        for (const row of rows) {
-          const tspan = doc.createElementNS('http://www.w3.org/2000/svg', 'tspan');
-          tspan.setAttributeNS('http://www.w3.org/XML/1998/namespace', 'xml:space', 'preserve');
-          tspan.setAttribute('dy', '1em');
-          tspan.setAttribute('x', '1');
-          tspan.textContent = row;
-          svgLabel.appendChild(tspan);
-        }
-        vertexNode = svgLabel;
-      }
-    }
+    // if (vertex.labelType === 'markdown') {
+    //   log.info('vertex', vertex, vertex.labelType);
+    // } else {
+    //   if (evaluate(getConfig().flowchart.htmlLabels)) {
+    //     // TODO: addHtmlLabel accepts a labelStyle. Do we possibly have that?
+    //     const node = {
+    //       label: vertexText.replace(
+    //         /fa[blrs]?:fa-[\w-]+/g,
+    //         (s) => `<i class='${s.replace(':', ' ')}'></i>`
+    //       ),
+    //     };
+    //     vertexNode = addHtmlLabel(svg, node).node();
+    //     vertexNode.parentNode.removeChild(vertexNode);
+    //   } else {
+    //     const svgLabel = doc.createElementNS('http://www.w3.org/2000/svg', 'text');
+    //     svgLabel.setAttribute('style', styles.labelStyle.replace('color:', 'fill:'));
+    //
+    //     const rows = vertexText.split(common.lineBreakRegex);
+    //
+    //     for (const row of rows) {
+    //       const tspan = doc.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+    //       tspan.setAttributeNS('http://www.w3.org/XML/1998/namespace', 'xml:space', 'preserve');
+    //       tspan.setAttribute('dy', '1em');
+    //       tspan.setAttribute('x', '1');
+    //       tspan.textContent = row;
+    //       svgLabel.appendChild(tspan);
+    //     }
+    //     vertexNode = svgLabel;
+    //   }
+    // }
 
     let radious = 0;
+    let taskType = undefined
     let _shape = '';
     // Set the shape based parameters
+    log.warn('setNodeee', {
+      labelStyle: styles.labelStyle,
+      labelType: vertex.labelType,
+      shape: vertex.type,
+      labelText: vertexText,
+      rx: radious,
+      ry: radious,
+      class: classStr,
+      style: styles.style,
+      id: vertex.id,
+      domId: diagObj.db.lookUpDomId(vertex.id),
+      width: vertex.type === 'group' ? 500 : undefined,
+      type: vertex.type,
+      dir: vertex.dir,
+      props: vertex.props,
+      padding: getConfig().flowchart.padding,
+    });
     switch (vertex.type) {
       case 'round':
         radious = 5;
-        _shape = 'rect';
+        _shape = 'person';
         break;
       case 'square':
         _shape = 'rect';
         break;
       case 'diamond':
-        _shape = 'question';
+        _shape = 'rect';
+        break;
+      case 'x_diamond':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'manual'
+        break;
+      case 'personTask':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'user'
+        break;
+      case 'bussiness_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'business-rule'
+        break;
+      case 'manual_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'manual'
+        break;
+      case 'script_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'script'
+        break;
+      case 'send_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'send'
+        break;
+      case 'service_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'service'
+        break;
+      case 'receive_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'receive'
+        break;
+      case 'user_task':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'user'
+        break;
+
+      case 'sende':
+        radious = 5;
+        _shape = 'task';
+        taskType = 'sub-process-marker'
         break;
       case 'hexagon':
         _shape = 'hexagon';
@@ -140,17 +210,366 @@ export const addVertices = function (vert, g, svgId, root, doc, diagObj) {
       case 'group':
         _shape = 'rect';
         break;
+      case 'end_event_compensation':
+        _shape = 'extraShape'
+        taskType = 'end-event-compensation'
+        break;
+      case 'end_event_compen':
+        _shape = 'extraShape'
+        taskType = 'end-event-compen'
+        break;
+      case 'end_event_cancel':
+        _shape = 'extraShape'
+        taskType = 'end-event-cancel'
+        break;
+      case 'lane_divide_three':
+        _shape = 'extraShape'
+        taskType = 'lane-divide-three'
+        break;
+      case 'intermediate_event_catch_parallel_multiple':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-parallel-multiple'
+        break;
+      case 'service':
+        _shape = 'extraShape'
+        taskType = 'service'
+        break;
+      case 'end_event_signal':
+        _shape = 'extraShape'
+        taskType = 'end-event-signal'
+        break;
+      case 'sequential_mi_marker':
+        _shape = 'extraShape'
+        taskType = 'sequential-mi-marker'
+        break;
+      case 'intermediate_event_throw_escalation':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-throw-escalation'
+        break;
+      case 'receive':
+        _shape = 'extraShape'
+        taskType = 'receive'
+        break;
+      case 'intermediate_event_catch_signal':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-signal'
+        break;
+      case 'compensation_marker':
+        _shape = 'extraShape'
+        taskType = 'compensation-marker'
+        break;
+      case 'start_event_parallel_multiple':
+        _shape = 'extraShape'
+        taskType = 'start-event-parallel-multiple'
+        break;
+      case 'intermediate_event_catch_multiple':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-multiple'
+        break;
+      case 'end_event_escalation':
+        _shape = 'extraShape'
+        taskType = 'end-event-escalation'
+        break;
+      case 'trash':
+        _shape = 'extraShape'
+        taskType = 'trash'
+        break;
+      case 'start_event_non_interrupting_parallel_multiple':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-parallel-multiple'
+        break;
+      case 'data_object':
+        _shape = 'extraShape'
+        taskType = 'data-object'
+        break;
+      case 'end_event_error':
+        _shape = 'extraShape'
+        taskType = 'end-event-error'
+        break;
+      case 'gateway_complex':
+        _shape = 'extraShape'
+        taskType = 'gateway-complex'
+        break;
+      case 'intermediate_event_catch_error':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-error'
+        break;
+      case 'start_event_non_interrupting_escalation':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-escalation'
+        break;
+      case 'intermediate_event_throw_link':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-throw-link'
+        break;
+      case 'gateway_xor':
+        _shape = 'extraShape'
+        taskType = 'gateway-xor'
+        break;
+      case 'lane_insert_below':
+        _shape = 'extraShape'
+        taskType = 'lane-insert-below'
+        break;
+      case 'gateway_eventbased':
+        _shape = 'extraShape'
+        taskType = 'gateway-eventbased'
+        break;
+      case 'intermediate_event_catch_non_interrupting_escalation':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-non-interrupting-escalation'
+        break;
+      case 'send':
+        _shape = 'extraShape'
+        taskType = 'send'
+        break;
+      case 'gateway_none':
+        _shape = 'extraShape'
+        taskType = 'gateway-none'
+        break;
+      case 'gateway_parallel':
+        _shape = 'extraShape'
+        taskType = 'gateway-parallel'
+        break;
+      case 'intermediate_event_catch_message':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-message'
+        break;
+      case 'screw_wrench':
+        _shape = 'extraShape'
+        taskType = 'screw-wrench'
+        break;
+      case 'end_event_multiple':
+        _shape = 'extraShape'
+        taskType = 'end-event-multiple'
+        break;
+      case 'loop_marker':
+        _shape = 'extraShape'
+        taskType = 'loop-marker'
+        break;
+      case 'end_event_link':
+        _shape = 'extraShape'
+        taskType = 'end-event-link'
+        break;
+      case 'data_store':
+        _shape = 'extraShape'
+        taskType = 'data-store'
+        break;
+      case 'start_event_condition':
+        _shape = 'extraShape'
+        taskType = 'start-event-condition'
+        break;
+      case 'intermediate_event_throw_multiple':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-throw-multiple'
+        break;
+      case 'data_input':
+        _shape = 'extraShape'
+        taskType = 'data-input'
+        break;
+      case 'intermediate_event_catch_non_interrupting_message':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event_catch-non-interrupting-message'
+        break;
+      case 'intermediate_event_none':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-none'
+        break;
+      case 'intermediate_event_catch_condition':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-condition'
+        break;
+      case 'parallel_mi_marker':
+        _shape = 'extraShape'
+        taskType = 'parallel-mi-marker'
+        break;
+      case 'lane_insert_above':
+        _shape = 'extraShape'
+        taskType = 'lane-insert-above'
+        break;
+      case 'end_event_terminate':
+        _shape = 'extraShape'
+        taskType = 'end-event-terminate'
+        break;
+      case 'intermediate_event_throw_message':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-throw-message'
+        break;
+      case 'start_event_signal':
+        _shape = 'extraShape'
+        taskType = 'start-event-signal'
+        break;
+      case 'intermediate_event_catch_non_interrupting_multiple':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-non-interrupting-multiple'
+        break;
+      case 'intermediate_event_catch_non_interrupting_timer':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-non-interrupting-timer'
+        break;
+      case 'intermediate_event_throw_compensation':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-throw-compensation'
+        break;
+      case 'manual':
+        _shape = 'extraShape'
+        taskType = 'manual'
+        break;
+      case 'intermediate_event_catch_compensation':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-compensation'
+        break;
+      case 'gateway_or':
+        _shape = 'extraShape'
+        taskType = 'gateway-or'
+        break;
+      case 'intermediate_event_catch_timer':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-timer'
+        break;
+      case 'start_event_none':
+        _shape = 'extraShape'
+        taskType = 'start-event-none'
+        break;
+      case 'start_event_compensation':
+        _shape = 'extraShape'
+        taskType = 'start-event-compensation'
+        break;
+      case 'start_event_non_interrupting_message':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-message'
+        break;
+      case 'lane_divide_two':
+        _shape = 'extraShape'
+        taskType = 'lane-divide-two'
+        break;
+      case 'user':
+        _shape = 'extraShape'
+        taskType = 'user'
+        break;
+      case 'intermediate_event_throw_signal':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-throw-signal'
+        break;
+      case 'start_event_non_interrupting_signal':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-signal'
+        break;
+      case 'start_event_message':
+        _shape = 'extraShape'
+        taskType = 'start-event-message'
+        break;
+      case 'end_event_message':
+        _shape = 'extraShape'
+        taskType = 'end-event-message'
+        break;
+      case 'start_event_non_interrupting_timer':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-timer'
+        break;
+      case 'business_rule':
+        _shape = 'extraShape'
+        taskType = 'business-rule'
+        break;
+      case 'start_event_error':
+        _shape = 'extraShape'
+        taskType = 'start-event-error'
+        break;
+      case 'hand_tool':
+        _shape = 'extraShape'
+        taskType = 'hand-tool'
+        break;
+      case 'sub_process_marker':
+        _shape = 'extraShape'
+        taskType = 'sub-process-marker'
+        break;
+      case 'intermediate_event_catch_non_interrupting_signal':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-non-interrupting-signal'
+        break;
+      case 'intermediate_event_catch_non_interrupting_parallel_multiple':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-non-interrupting-parallel-multiple'
+        break;
+      case 'intermediate_event_catch_non_interrupting_condition':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-non-interrupting-condition'
+        break;
+      case 'intermediate_event_catch_cancel':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-cancel'
+        break;
+      case 'ad_hoc_marker':
+        _shape = 'extraShape'
+        taskType = 'ad-hoc-marker'
+        break;
+      case 'intermediate_event_catch_escalation':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-escalation'
+        break;
+      case 'start_event_timer':
+        _shape = 'extraShape'
+        taskType = 'start-event-timer'
+        break;
+      case 'intermediate_event_catch_link':
+        _shape = 'extraShape'
+        taskType = 'intermediate-event-catch-link'
+        break;
+      case 'start_event_multiple':
+        _shape = 'extraShape'
+        taskType = 'start-event-multiple'
+        break;
+      case 'start_event_non_interrupting_multiple':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-multiple'
+        break;
+      case 'start_event_escalation':
+        _shape = 'extraShape'
+        taskType = 'start-event-escalation'
+        break;
+      case 'start_event_non_interrupting_condition':
+        _shape = 'extraShape'
+        taskType = 'start-event-non-interrupting-condition'
+        break;
+      case 'script':
+        _shape = 'extraShape'
+        taskType = 'script'
+        break;
+      case 'data_output':
+        _shape = 'extraShape'
+        taskType = 'data-output'
+        break;
+      case 'end_event_none':
+        _shape = 'extraShape'
+        taskType = 'end-event-none'
+        break;
+      case 'pool':
+        _shape = 'rect';
+        log.warn("asdnet pool", vert)
+        break;
+
+      case 'subpool':
+        _shape = 'rect';
+        log.warn("kkkaas line", vert)
+        break;
+
+      case 'endcircle':
+        _shape = 'endcircle';
+        break;
+      case 'terminatecircle':
+        _shape = 'simpleMessage'
+        break;
       case 'doublecircle':
         _shape = 'doublecircle';
         break;
       default:
-        _shape = 'rect';
+        _shape = 'person';
     }
     // Add the node
-    g.setNode(vertex.id, {
+      g.setNode(vertex.id, {
       labelStyle: styles.labelStyle,
       shape: _shape,
       labelText: vertexText,
+      labelSimpleText: vertexText,
       labelType: vertex.labelType,
       rx: radious,
       ry: radious,
@@ -162,7 +581,8 @@ export const addVertices = function (vert, g, svgId, root, doc, diagObj) {
       tooltip: diagObj.db.getTooltip(vertex.id) || '',
       domId: diagObj.db.lookUpDomId(vertex.id),
       haveCallback: vertex.haveCallback,
-      width: vertex.type === 'group' ? 500 : undefined,
+      taskType: taskType,
+      width: vertex.type === ('group' || 'subpool' || 'pool') ? 500 : undefined,
       dir: vertex.dir,
       type: vertex.type,
       props: vertex.props,
@@ -332,7 +752,9 @@ export const addEdges = function (edges, g, diagObj) {
     edgeData.classes = 'flowchart-link ' + linkNameStart + ' ' + linkNameEnd;
 
     // Add the edge to the graph
+    log.warn('em: Graph at first:', graphlibJson.write(g));
     g.setEdge(edge.start, edge.end, edgeData, cnt);
+    log.warn('em: Graph at last:', graphlibJson.write(g));
   });
 };
 
@@ -376,8 +798,11 @@ export const draw = async function (text, id, _version, diagObj) {
   }
 
   const { securityLevel, flowchart: conf } = getConfig();
-  const nodeSpacing = conf.nodeSpacing || 50;
-  const rankSpacing = conf.rankSpacing || 50;
+  // const nodeSpacing = conf.nodeSpacing || 50;
+  // const rankSpacing = conf.rankSpacing || 50;
+
+  const nodeSpacing = 40;
+  const rankSpacing = 5;
 
   // Handle root and document for when rendering in sandbox mode
   let sandboxElement;
@@ -408,15 +833,19 @@ export const draw = async function (text, id, _version, diagObj) {
 
   let subG;
   const subGraphs = diagObj.db.getSubGraphs();
-  log.info('Subgraphs - ', subGraphs);
+  log.warn('Subgraphs - ', subGraphs);
+
   for (let i = subGraphs.length - 1; i >= 0; i--) {
     subG = subGraphs[i];
-    log.info('Subgraph - ', subG);
+
+    log.warn('Subgraph - ', subG);
     diagObj.db.addVertex(
       subG.id,
       { text: subG.title, type: subG.labelType },
-      'group',
-      undefined,
+      subG.groupType,
+      [
+        'fill:transparent'
+      ],
       subG.classes,
       subG.dir
     );
@@ -436,12 +865,16 @@ export const draw = async function (text, id, _version, diagObj) {
     selectAll('cluster').append('text');
 
     for (let j = 0; j < subG.nodes.length; j++) {
-      log.info('Setting up subgraphs', subG.nodes[j], subG.id);
+      log.warn('Setting up Parent subgraphs', subG.nodes[j], subG.id, subGraphs);
       g.setParent(subG.nodes[j], subG.id);
     }
   }
+
+  log.warn('Graph at first:::11', JSON.parse(JSON.stringify(g)));
   addVertices(vert, g, id, root, doc, diagObj);
+  console.log('em: bef addedges: Graph at first:', JSON.parse(JSON.stringify(g)));
   addEdges(edges, g, diagObj);
+  console.log('em: aft addedges: Graph at first:', JSON.parse(JSON.stringify(g)));
 
   // Add custom shapes
   // flowChartShapes.addToRenderV2(addShape);

@@ -87,7 +87,12 @@ that id.
 "flowchart-elk"        {if(yy.lex.firstGraph()){this.begin("dir");}  return 'GRAPH';}
 "graph"                {if(yy.lex.firstGraph()){this.begin("dir");}  return 'GRAPH';}
 "flowchart"            {if(yy.lex.firstGraph()){this.begin("dir");}  return 'GRAPH';}
+
 "subgraph"            return 'subgraph';
+"pool"                return 'pool';
+"line"                return 'line';
+"lend"\b\s*            return 'endline';
+"pend"\b\s*            return 'endpool';
 "end"\b\s*            return 'end';
 
 "_self"               return 'LINK_TARGET';
@@ -129,6 +134,362 @@ that id.
 \s*[xo<]?\-\.\s*            return 'START_LINK';
 "(-"                  return '(-';
 "-)"                  return '-)';
+
+"{end_event_compensation"       return 'end_event_compensation_FIRST'
+
+"end_event_compensation}"       return 'end_event_compensation_END'
+
+"{end_event_cancel"       return 'end_event_cancel_FIRST'
+
+"end_event_cancel}"       return 'end_event_cancel_END'
+
+"{lane_divide_three"        return 'lane_divide_three_FIRST'
+
+"lane_divide_three}"        return 'lane_divide_three_END'
+
+"{intermediate_event_catch_parallel_multiple"       return 'intermediate_event_catch_parallel_multiple_FIRST'
+
+"intermediate_event_catch_parallel_multiple}"       return 'intermediate_event_catch_parallel_multiple_END'
+
+"{service"        return 'service_FIRST'
+
+"service}"        return 'service_END'
+
+"{end_event_signal"       return 'end_event_signal_FIRST'
+
+"end_event_signal}"       return 'end_event_signal_END'
+
+"{sequential_mi_marker"       return 'sequential_mi_marker_FIRST'
+
+"sequential_mi_marker}"       return 'sequential_mi_marker_END'
+
+"{intermediate_event_throw_escalation"        return 'intermediate_event_throw_escalation_FIRST'
+
+"intermediate_event_throw_escalation}"        return 'intermediate_event_throw_escalation_END'
+
+"{receive"        return 'receive_FIRST'
+
+"receive}"        return 'receive_END'
+
+"{intermediate_event_catch_signal"        return 'intermediate_event_catch_signal_FIRST'
+
+"intermediate_event_catch_signal}"        return 'intermediate_event_catch_signal_END'
+
+"{compensation_marker"        return 'compensation_marker_FIRST'
+
+"compensation_marker}"        return 'compensation_marker_END'
+
+"{start_event_parallel_multiple"        return 'start_event_parallel_multiple_FIRST'
+
+"start_event_parallel_multiple}"        return 'start_event_parallel_multiple_END'
+
+"{intermediate_event_catch_multiple"        return 'intermediate_event_catch_multiple_FIRST'
+
+"intermediate_event_catch_multiple}"        return 'intermediate_event_catch_multiple_END'
+
+"{end_event_escalation"       return 'end_event_escalation_FIRST'
+
+"end_event_escalation}"       return 'end_event_escalation_END'
+
+"{trash"        return 'trash_FIRST'
+
+"trash}"        return 'trash_END'
+
+"{start_event_non_interrupting_parallel_multiple"       return 'start_event_non_interrupting_parallel_multiple_FIRST'
+
+"start_event_non_interrupting_parallel_multiple}"       return 'start_event_non_interrupting_parallel_multiple_END'
+
+"{data_object"        return 'data_object_FIRST'
+
+"data_object}"        return 'data_object_END'
+
+"{end_event_error"        return 'end_event_error_FIRST'
+
+"end_event_error}"        return 'end_event_error_END'
+
+"{gateway_complex"        return 'gateway_complex_FIRST'
+
+"gateway_complex}"        return 'gateway_complex_END'
+
+"{intermediate_event_catch_error"       return 'intermediate_event_catch_error_FIRST'
+
+"intermediate_event_catch_error}"       return 'intermediate_event_catch_error_END'
+
+"{start_event_non_interrupting_escalation"        return 'start_event_non_interrupting_escalation_FIRST'
+
+"start_event_non_interrupting_escalation}"        return 'start_event_non_interrupting_escalation_END'
+
+"{intermediate_event_throw_link"        return 'intermediate_event_throw_link_FIRST'
+
+"intermediate_event_throw_link}"        return 'intermediate_event_throw_link_END'
+
+"{gateway_xor"        return 'gateway_xor_FIRST'
+
+"gateway_xor}"        return 'gateway_xor_END'
+
+"{lane_insert_below"        return 'lane_insert_below_FIRST'
+
+"lane_insert_below}"        return 'lane_insert_below_END'
+
+"{gateway_eventbased"       return 'gateway_eventbased_FIRST'
+
+"gateway_eventbased}"       return 'gateway_eventbased_END'
+
+"{intermediate_event_catch_non_interrupting_escalation"       return 'intermediate_event_catch_non_interrupting_escalation_FIRST'
+
+"intermediate_event_catch_non_interrupting_escalation}"       return 'intermediate_event_catch_non_interrupting_escalation_END'
+
+"{send"       return 'send_FIRST'
+
+"send}"       return 'send_END'
+
+"{gateway_none"       return 'gateway_none_FIRST'
+
+"gateway_none}"       return 'gateway_none_END'
+
+"{gateway_parallel"       return 'gateway_parallel_FIRST'
+
+"gateway_parallel}"       return 'gateway_parallel_END'
+
+"{intermediate_event_catch_message"       return 'intermediate_event_catch_message_FIRST'
+
+"intermediate_event_catch_message}"       return 'intermediate_event_catch_message_END'
+
+"{screw_wrench"       return 'screw_wrench_FIRST'
+
+"screw_wrench}"       return 'screw_wrench_END'
+
+"{end_event_multiple"       return 'end_event_multiple_FIRST'
+
+"end_event_multiple}"       return 'end_event_multiple_END'
+
+"{loop_marker"        return 'loop_marker_FIRST'
+
+"loop_marker}"        return 'loop_marker_END'
+
+"{end_event_link"       return 'end_event_link_FIRST'
+
+"end_event_link}"       return 'end_event_link_END'
+
+"{data_store"       return 'data_store_FIRST'
+
+"data_store}"       return 'data_store_END'
+
+"{start_event_condition"        return 'start_event_condition_FIRST'
+
+"start_event_condition}"        return 'start_event_condition_END'
+
+"{intermediate_event_throw_multiple"        return 'intermediate_event_throw_multiple_FIRST'
+
+"intermediate_event_throw_multiple}"        return 'intermediate_event_throw_multiple_END'
+
+"{data_input"       return 'data_input_FIRST'
+
+"data_input}"       return 'data_input_END'
+
+"{intermediate_event_catch_non_interrupting_message"        return 'intermediate_event_catch_non_interrupting_message_FIRST'
+
+"intermediate_event_catch_non_interrupting_message}"        return 'intermediate_event_catch_non_interrupting_message_END'
+
+"{intermediate_event_none"        return 'intermediate_event_none_FIRST'
+
+"intermediate_event_none}"        return 'intermediate_event_none_END'
+
+"{intermediate_event_catch_condition"       return 'intermediate_event_catch_condition_FIRST'
+
+"intermediate_event_catch_condition}"       return 'intermediate_event_catch_condition_END'
+
+"{parallel_mi_marker"       return 'parallel_mi_marker_FIRST'
+
+"parallel_mi_marker}"       return 'parallel_mi_marker_END'
+
+"{lane_insert_above"        return 'lane_insert_above_FIRST'
+
+"lane_insert_above}"        return 'lane_insert_above_END'
+
+"{end_event_terminate"        return 'end_event_terminate_FIRST'
+
+"end_event_terminate}"        return 'end_event_terminate_END'
+
+"{intermediate_event_throw_message"       return 'intermediate_event_throw_message_FIRST'
+
+"intermediate_event_throw_message}"       return 'intermediate_event_throw_message_END'
+
+"{start_event_signal"       return 'start_event_signal_FIRST'
+
+"start_event_signal}"       return 'start_event_signal_END'
+
+"{intermediate_event_catch_non_interrupting_multiple"       return 'intermediate_event_catch_non_interrupting_multiple_FIRST'
+
+"intermediate_event_catch_non_interrupting_multiple}"       return 'intermediate_event_catch_non_interrupting_multiple_END'
+
+"{intermediate_event_catch_non_interrupting_timer"        return 'intermediate_event_catch_non_interrupting_timer_FIRST'
+
+"intermediate_event_catch_non_interrupting_timer}"        return 'intermediate_event_catch_non_interrupting_timer_END'
+
+"{intermediate_event_throw_compensation"        return 'intermediate_event_throw_compensation_FIRST'
+
+"intermediate_event_throw_compensation}"        return 'intermediate_event_throw_compensation_END'
+
+"{manual"       return 'manual_FIRST'
+
+"manual}"       return 'manual_END'
+
+"{intermediate_event_catch_compensation"        return 'intermediate_event_catch_compensation_FIRST'
+
+"intermediate_event_catch_compensation}"        return 'intermediate_event_catch_compensation_END'
+
+"{gateway_or"       return 'gateway_or_FIRST'
+
+"gateway_or}"       return 'gateway_or_END'
+
+"{intermediate_event_catch_timer"       return 'intermediate_event_catch_timer_FIRST'
+
+"intermediate_event_catch_timer}"       return 'intermediate_event_catch_timer_END'
+
+"{start_event_none"       return 'start_event_none_FIRST'
+
+"start_event_none}"       return 'start_event_none_END'
+
+"{start_event_compensation"       return 'start_event_compensation_FIRST'
+
+"start_event_compensation}"       return 'start_event_compensation_END'
+
+"{start_event_non_interrupting_message"       return 'start_event_non_interrupting_message_FIRST'
+
+"start_event_non_interrupting_message}"       return 'start_event_non_interrupting_message_END'
+
+"{lane_divide_two"        return 'lane_divide_two_FIRST'
+
+"lane_divide_two}"        return 'lane_divide_two_END'
+
+"{user"       return 'user_FIRST'
+
+"user}"       return 'user_END'
+
+"{intermediate_event_throw_signal"        return 'intermediate_event_throw_signal_FIRST'
+
+"intermediate_event_throw_signal}"        return 'intermediate_event_throw_signal_END'
+
+"{start_event_non_interrupting_signal"        return 'start_event_non_interrupting_signal_FIRST'
+
+"start_event_non_interrupting_signal}"        return 'start_event_non_interrupting_signal_END'
+
+"{start_event_message"        return 'start_event_message_FIRST'
+
+"start_event_message}"        return 'start_event_message_END'
+
+"{end_event_message"        return 'end_event_message_FIRST'
+
+"end_event_message}"        return 'end_event_message_END'
+
+"{start_event_non_interrupting_timer"       return 'start_event_non_interrupting_timer_FIRST'
+
+"start_event_non_interrupting_timer}"       return 'start_event_non_interrupting_timer_END'
+
+"{business_rule"        return 'business_rule_FIRST'
+
+"business_rule}"        return 'business_rule_END'
+
+"{start_event_error"        return 'start_event_error_FIRST'
+
+"start_event_error}"        return 'start_event_error_END'
+
+"{hand_tool"        return 'hand_tool_FIRST'
+
+"hand_tool}"        return 'hand_tool_END'
+
+"{sub_process_marker"       return 'sub_process_marker_FIRST'
+
+"sub_process_marker}"       return 'sub_process_marker_END'
+
+"{intermediate_event_catch_non_interrupting_signal"       return 'intermediate_event_catch_non_interrupting_signal_FIRST'
+
+"intermediate_event_catch_non_interrupting_signal}"       return 'intermediate_event_catch_non_interrupting_signal_END'
+
+"{intermediate_event_catch_non_interrupting_parallel_multiple"        return 'intermediate_event_catch_non_interrupting_parallel_multiple_FIRST'
+
+"intermediate_event_catch_non_interrupting_parallel_multiple}"        return 'intermediate_event_catch_non_interrupting_parallel_multiple_END'
+
+"{intermediate_event_catch_non_interrupting_condition"        return 'intermediate_event_catch_non_interrupting_condition_FIRST'
+
+"intermediate_event_catch_non_interrupting_condition}"        return 'intermediate_event_catch_non_interrupting_condition_END'
+
+"{intermediate_event_catch_cancel"        return 'intermediate_event_catch_cancel_FIRST'
+
+"intermediate_event_catch_cancel}"        return 'intermediate_event_catch_cancel_END'
+
+"{ad_hoc_marker"        return 'ad_hoc_marker_FIRST'
+
+"ad_hoc_marker}"        return 'ad_hoc_marker_END'
+
+"{intermediate_event_catch_escalation"        return 'intermediate_event_catch_escalation_FIRST'
+
+"intermediate_event_catch_escalation}"        return 'intermediate_event_catch_escalation_END'
+
+"{start_event_timer"        return 'start_event_timer_FIRST'
+
+"start_event_timer}"        return 'start_event_timer_END'
+
+"{intermediate_event_catch_link"        return 'intermediate_event_catch_link_FIRST'
+
+"intermediate_event_catch_link}"        return 'intermediate_event_catch_link_END'
+
+"{start_event_multiple"       return 'start_event_multiple_FIRST'
+
+"start_event_multiple}"       return 'start_event_multiple_END'
+
+"{start_event_non_interrupting_multiple"        return 'start_event_non_interrupting_multiple_FIRST'
+
+"start_event_non_interrupting_multiple}"        return 'start_event_non_interrupting_multiple_END'
+
+"{start_event_escalation"       return 'start_event_escalation_FIRST'
+
+"start_event_escalation}"       return 'start_event_escalation_END'
+
+"{start_event_non_interrupting_condition"       return 'start_event_non_interrupting_condition_FIRST'
+
+"start_event_non_interrupting_condition}"       return 'start_event_non_interrupting_condition_END'
+
+"{script"       return 'script_FIRST'
+
+"script}"       return 'script_END'
+
+"{data_output"        return 'data_output_FIRST'
+
+"data_output}"        return 'data_output_END'
+
+"{end_event_none"       return 'end_event_none_FIRST'
+
+"end_event_none}"       return 'end_event_none_END'
+
+"[business_task"       return 'bussiness_task_FIRST'
+"business_task]"       return 'bussiness_task_END'
+
+"[manual_task"       return 'manual_task_FIRST'
+"manual_task]"       return 'manual_task_END'
+
+"[script_task"       return 'script_task_FIRST'
+"script_task]"       return 'script_task_END'
+
+"[send_task"       return 'send_task_FIRST'
+"send_task]"       return 'send_task_END'
+
+"[service_task"       return 'service_task_FIRST'
+"service_task]"       return 'service_task_END'
+
+"[receive_task"       return 'receive_task_FIRST'
+"receive_task]"       return 'receive_task_END'
+
+"[user_task"       return 'user_task_FIRST'
+"user_task]"       return 'user_task_END'
+
+
+"{x"                   return 'X_DIAMOND_START'
+"x}"                   return 'X_DIAMOND_STOP'
+"{send"                   return 'SENDSTART'
+"send}"                   return 'SENDEND'
+
 "(["                  return 'STADIUMSTART';
 "])"                  return 'STADIUMEND';
 "[["                  return 'SUBROUTINESTART';
@@ -136,6 +497,10 @@ that id.
 "[|"                  return 'VERTEX_WITH_PROPS_START';
 "[("                  return 'CYLINDERSTART';
 ")]"                  return 'CYLINDEREND';
+"((t"                 return 'TERMINATECIRCLESTART';
+"t))"                 return 'TERMINATECIRCLEEND';
+"((e"                 return 'ENDCIRCLESTART';
+"e))"                 return 'ENDCIRCLEEND';
 "((("                 return 'DOUBLECIRCLESTART';
 ")))"                 return 'DOUBLECIRCLEEND';
 \-                    return 'MINUS';
@@ -225,6 +590,8 @@ that id.
 "]"                   return 'SQE';
 "{"                   return 'DIAMOND_START'
 "}"                   return 'DIAMOND_STOP'
+
+
 "\""                  return 'QUOTE';
 (\r?\n)+              return 'NEWLINE';
 \s                    return 'SPACE';
@@ -273,7 +640,7 @@ mermaidDoc
 document
 	: /* empty */
 	{ $$ = [];}
-	| document line
+	| document linee
 	{
 	    if(!Array.isArray($2) || $2.length > 0){
 	        $1.push($2);
@@ -281,7 +648,7 @@ document
 	    $$=$1;}
 	;
 
-line
+linee
 	: statement
 	{$$=$1;}
 	| SEMI
@@ -294,7 +661,7 @@ graphConfig
     : SPACE graphConfig
     | NEWLINE graphConfig
     | GRAPH NODIR
-        { yy.setDirection('TB');$$ = 'TB';}
+        { yy.setDirection('LR');$$ = 'LR';}
     | GRAPH DIR FirstStmtSeperator
         { yy.setDirection($2);$$ = $2;}
     // | GRAPH SPACE TAGEND FirstStmtSeperator
@@ -343,15 +710,15 @@ statement
     {$$=[];}
     | clickStatement separator
     {$$=[];}
-    | subgraph SPACE text SQS text SQE separator document end
-    {$$=yy.addSubGraph($3,$8,$5);}
-    | subgraph SPACE text separator document end
-    {$$=yy.addSubGraph($3,$5,$3);}
-    // | subgraph SPACE text separator document end
-    // {$$=yy.addSubGraph($3,$5,$3);}
-    | subgraph separator document end
-    {$$=yy.addSubGraph(undefined,$3,undefined);}
-    | direction
+
+    | pool SPACE text separator document endpool
+    {$$=yy.addSubGraph($3,$5,$3, 'pool');yy.setDirection('LR');}
+    // | subgraph SPACE text separator document endpool
+    // {$$=yy.addSubGraph($3,$5,$3, 'pool');}
+
+    | line SPACE text separator document endline
+    {$$=yy.addSubGraph($3,$5,$3, 'subpool');yy.setDirection('LR');}
+
     | acc_title acc_title_value  { $$=$2.trim();yy.setAccTitle($$); }
     | acc_descr acc_descr_value  { $$=$2.trim();yy.setAccDescription($$); }
     | acc_descr_multiline_value { $$=$1.trim();yy.setAccDescription($$); }
@@ -378,6 +745,10 @@ node: vertex
 
 vertex:  idString SQS text SQE
         {$$ = $1;yy.addVertex($1,$3,'square');}
+    | idString ENDCIRCLESTART text ENDCIRCLEEND
+            {$$ = $1;yy.addVertex($1,$3,'endcircle');}
+    | idString TERMINATECIRCLESTART text TERMINATECIRCLEEND
+                {$$ = $1;yy.addVertex($1,$3,'terminatecircle');}
     | idString DOUBLECIRCLESTART text DOUBLECIRCLEEND
         {$$ = $1;yy.addVertex($1,$3,'doublecircle');}
     | idString PS PS text PE PE
@@ -397,7 +768,200 @@ vertex:  idString SQS text SQE
     | idString DIAMOND_START text DIAMOND_STOP
         {$$ = $1;yy.addVertex($1,$3,'diamond');}
     | idString DIAMOND_START DIAMOND_START text DIAMOND_STOP DIAMOND_STOP
-        {$$ = $1;yy.addVertex($1,$4,'hexagon');}
+        {$$ = $1;yy.addVertex($1,$4,'x_diamond');}
+    | idString X_DIAMOND_START text X_DIAMOND_STOP
+        {$$ = $1;yy.addVertex($1,$3,'x_diamond');}
+
+    | idString SENDSTART text SENDEND
+            {$$ = $1;yy.addVertex($1,$3,'sende');}
+    | idString end_event_compensation_FIRST text end_event_compensation_END
+            {$$ = $1;yy.addVertex($1,$3,'end_event_compensation');}
+
+    | idString end_event_cancel_FIRST text end_event_cancel_END
+            {$$ = $1;yy.addVertex($1,$3,'end_event_cancel');}
+
+    | idString lane_divide_three_FIRST text lane_divide_three_END
+            {$$ = $1;yy.addVertex($1,$3,'lane_divide_three');}
+
+    | idString intermediate_event_catch_parallel_multiple_FIRST text intermediate_event_catch_parallel_multiple_END
+            {$$ = $1;yy.addVertex($1,$3,'intermediate_event_catch_parallel_multiple');}
+
+    | idString service_FIRST text service_END
+            {$$ = $1;yy.addVertex($1,$3,'service');}
+
+    | idString end_event_signal_FIRST text end_event_signal_END
+            {$$ = $1;yy.addVertex($1,$3,'end_event_signal');}
+
+    | idString sequential_mi_marker_FIRST text sequential_mi_marker_END
+            {$$ = $1;yy.addVertex($1,$3,'sequential_mi_marker');}
+
+    | idString intermediate_event_throw_escalation_FIRST text intermediate_event_throw_escalation_END
+            {$$ = $1;yy.addVertex($1,$3,'intermediate_event_throw_escalation');}
+
+    | idString receive_FIRST text receive_END
+        {$$ = $1;yy.addVertex($1, $3, 'receive');}
+    | idString intermediate_event_catch_signal_FIRST text intermediate_event_catch_signal_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_signal');}
+    | idString compensation_marker_FIRST text compensation_marker_END
+        {$$ = $1;yy.addVertex($1, $3, 'compensation_marker');}
+    | idString start_event_parallel_multiple_FIRST text start_event_parallel_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_parallel_multiple');}
+    | idString intermediate_event_catch_multiple_FIRST text intermediate_event_catch_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_multiple');}
+    | idString end_event_escalation_FIRST text end_event_escalation_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_escalation');}
+    | idString trash_FIRST text trash_END
+        {$$ = $1;yy.addVertex($1, $3, 'trash');}
+    | idString start_event_non_interrupting_parallel_multiple_FIRST text start_event_non_interrupting_parallel_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_parallel_multiple');}
+    | idString data_object_FIRST text data_object_END
+        {$$ = $1;yy.addVertex($1, $3, 'data_object');}
+    | idString end_event_error_FIRST text end_event_error_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_error');}
+    | idString gateway_complex_FIRST text gateway_complex_END
+        {$$ = $1;yy.addVertex($1, $3, 'gateway_complex');}
+    | idString intermediate_event_catch_error_FIRST text intermediate_event_catch_error_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_error');}
+    | idString start_event_non_interrupting_escalation_FIRST text start_event_non_interrupting_escalation_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_escalation');}
+    | idString intermediate_event_throw_link_FIRST text intermediate_event_throw_link_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_throw_link');}
+    | idString gateway_xor_FIRST text gateway_xor_END
+        {$$ = $1;yy.addVertex($1, $3, 'gateway_xor');}
+    | idString lane_insert_below_FIRST text lane_insert_below_END
+        {$$ = $1;yy.addVertex($1, $3, 'lane_insert_below');}
+    | idString gateway_eventbased_FIRST text gateway_eventbased_END
+        {$$ = $1;yy.addVertex($1, $3, 'gateway_eventbased');}
+    | idString intermediate_event_catch_non_interrupting_escalation_FIRST text intermediate_event_catch_non_interrupting_escalation_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_escalation');}
+    | idString send_FIRST text send_END
+        {$$ = $1;yy.addVertex($1, $3, 'send');}
+    | idString gateway_none_FIRST text gateway_none_END
+        {$$ = $1;yy.addVertex($1, $3, 'gateway_none');}
+    | idString gateway_parallel_FIRST text gateway_parallel_END
+        {$$ = $1;yy.addVertex($1, $3, 'gateway_parallel');}
+    | idString intermediate_event_catch_message_FIRST text intermediate_event_catch_message_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_message');}
+    | idString screw_wrench_FIRST text screw_wrench_END
+        {$$ = $1;yy.addVertex($1, $3, 'screw_wrench');}
+    | idString end_event_multiple_FIRST text end_event_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_multiple');}
+    | idString loop_marker_FIRST text loop_marker_END
+        {$$ = $1;yy.addVertex($1, $3, 'loop_marker');}
+    | idString end_event_link_FIRST text end_event_link_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_link');}
+    | idString data_store_FIRST text data_store_END
+        {$$ = $1;yy.addVertex($1, $3, 'data_store');}
+    | idString start_event_condition_FIRST text start_event_condition_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_condition');}
+    | idString intermediate_event_throw_multiple_FIRST text intermediate_event_throw_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_throw_multiple');}
+    | idString data_input_FIRST text data_input_END
+        {$$ = $1;yy.addVertex($1, $3, 'data_input');}
+    | idString intermediate_event_catch_non_interrupting_message_FIRST text intermediate_event_catch_non_interrupting_message_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_message');}
+    | idString intermediate_event_none_FIRST text intermediate_event_none_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_none');}
+    | idString intermediate_event_catch_condition_FIRST text intermediate_event_catch_condition_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_condition');}
+    | idString parallel_mi_marker_FIRST text parallel_mi_marker_END
+        {$$ = $1;yy.addVertex($1, $3, 'parallel_mi_marker');}
+    | idString lane_insert_above_FIRST text lane_insert_above_END
+        {$$ = $1;yy.addVertex($1, $3, 'lane_insert_above');}
+    | idString end_event_terminate_FIRST text end_event_terminate_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_terminate');}
+    | idString intermediate_event_throw_message_FIRST text intermediate_event_throw_message_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_throw_message');}
+    | idString start_event_signal_FIRST text start_event_signal_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_signal');}
+    | idString intermediate_event_catch_non_interrupting_multiple_FIRST text intermediate_event_catch_non_interrupting_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_multiple');}
+    | idString intermediate_event_catch_non_interrupting_timer_FIRST text intermediate_event_catch_non_interrupting_timer_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_timer');}
+    | idString intermediate_event_throw_compensation_FIRST text intermediate_event_throw_compensation_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_throw_compensation');}
+    | idString manual_FIRST text manual_END
+        {$$ = $1;yy.addVertex($1, $3, 'manual');}
+    | idString intermediate_event_catch_compensation_FIRST text intermediate_event_catch_compensation_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_compensation');}
+    | idString gateway_or_FIRST text gateway_or_END
+        {$$ = $1;yy.addVertex($1, $3, 'gateway_or');}
+    | idString intermediate_event_catch_timer_FIRST text intermediate_event_catch_timer_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_timer');}
+    | idString start_event_none_FIRST text start_event_none_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_none');}
+    | idString start_event_compensation_FIRST text start_event_compensation_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_compensation');}
+    | idString start_event_non_interrupting_message_FIRST text start_event_non_interrupting_message_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_message');}
+    | idString lane_divide_two_FIRST text lane_divide_two_END
+        {$$ = $1;yy.addVertex($1, $3, 'lane_divide_two');}
+    | idString user_FIRST text user_END
+        {$$ = $1;yy.addVertex($1, $3, 'user');}
+    | idString intermediate_event_throw_signal_FIRST text intermediate_event_throw_signal_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_throw_signal');}
+    | idString start_event_non_interrupting_signal_FIRST text start_event_non_interrupting_signal_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_signal');}
+    | idString start_event_message_FIRST text start_event_message_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_message');}
+    | idString end_event_message_FIRST text end_event_message_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_message');}
+    | idString start_event_non_interrupting_timer_FIRST text start_event_non_interrupting_timer_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_timer');}
+    | idString business_rule_FIRST text business_rule_END
+        {$$ = $1;yy.addVertex($1, $3, 'business_rule');}
+    | idString start_event_error_FIRST text start_event_error_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_error');}
+    | idString hand_tool_FIRST text hand_tool_END
+        {$$ = $1;yy.addVertex($1, $3, 'hand_tool');}
+    | idString sub_process_marker_FIRST text sub_process_marker_END
+        {$$ = $1;yy.addVertex($1, $3, 'sub_process_marker');}
+    | idString intermediate_event_catch_non_interrupting_signal_FIRST text intermediate_event_catch_non_interrupting_signal_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_signal');}
+    | idString intermediate_event_catch_non_interrupting_parallel_multiple_FIRST text intermediate_event_catch_non_interrupting_parallel_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_parallel_multiple');}
+    | idString intermediate_event_catch_non_interrupting_condition_FIRST text intermediate_event_catch_non_interrupting_condition_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_non_interrupting_condition');}
+    | idString intermediate_event_catch_cancel_FIRST text intermediate_event_catch_cancel_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_cancel');}
+    | idString ad_hoc_marker_FIRST text ad_hoc_marker_END
+        {$$ = $1;yy.addVertex($1, $3, 'ad_hoc_marker');}
+    | idString intermediate_event_catch_escalation_FIRST text intermediate_event_catch_escalation_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_escalation');}
+    | idString start_event_timer_FIRST text start_event_timer_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_timer');}
+    | idString intermediate_event_catch_link_FIRST text intermediate_event_catch_link_END
+        {$$ = $1;yy.addVertex($1, $3, 'intermediate_event_catch_link');}
+    | idString start_event_multiple_FIRST text start_event_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_multiple');}
+    | idString start_event_non_interrupting_multiple_FIRST text start_event_non_interrupting_multiple_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_multiple');}
+    | idString start_event_escalation_FIRST text start_event_escalation_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_escalation');}
+    | idString start_event_non_interrupting_condition_FIRST text start_event_non_interrupting_condition_END
+        {$$ = $1;yy.addVertex($1, $3, 'start_event_non_interrupting_condition');}
+    | idString script_FIRST text script_END
+        {$$ = $1;yy.addVertex($1, $3, 'script');}
+    | idString data_output_FIRST text data_output_END
+        {$$ = $1;yy.addVertex($1, $3, 'data_output');}
+    | idString end_event_none_FIRST text end_event_none_END
+        {$$ = $1;yy.addVertex($1, $3, 'end_event_none');}
+
+    | idString bussiness_task_FIRST text bussiness_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'bussiness_task');}
+    | idString manual_task_FIRST text manual_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'manual_task');}
+    | idString script_task_FIRST text script_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'script_task');}
+    | idString send_task_FIRST text send_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'send_task');}
+    | idString service_task_FIRST text service_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'service_task');}
+    | idString receive_task_FIRST text receive_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'receive_task');}
+    | idString user_task_FIRST text user_task_END
+        {$$ = $1;yy.addVertex($1, $3, 'user_task');}
+
     | idString TAGEND text SQE
         {$$ = $1;yy.addVertex($1,$3,'odd');}
     | idString TRAPSTART text TRAPEND
@@ -448,7 +1012,7 @@ text: textToken
 
 
 keywords
-    : STYLE | LINKSTYLE | CLASSDEF | CLASS | CLICK | GRAPH | DIR | subgraph | end | DOWN | UP;
+    : STYLE | LINKSTYLE | CLASSDEF | CLASS | CLICK | GRAPH | DIR | line | pool | endline | endpool | end | DOWN | UP;
 
 
 textNoTags: textNoTagsToken
@@ -571,5 +1135,95 @@ alphaNumToken  : PUNCTUATION | AMP | UNICODE_TEXT | NUM| ALPHA | COLON | COMMA |
 
 idStringToken  : ALPHA|UNDERSCORE |UNICODE_TEXT | NUM|  COLON | COMMA | PLUS | MINUS | DOWN |EQUALS | MULT | BRKT | DOT | PUNCTUATION | AMP | DEFAULT;
 
-graphCodeTokens: STADIUMSTART | STADIUMEND | SUBROUTINESTART | SUBROUTINEEND | VERTEX_WITH_PROPS_START | CYLINDERSTART | CYLINDEREND | TRAPSTART | TRAPEND | INVTRAPSTART | INVTRAPEND | PIPE | PS | PE | SQS | SQE | DIAMOND_START | DIAMOND_STOP | TAGSTART | TAGEND | ARROW_CROSS | ARROW_POINT | ARROW_CIRCLE | ARROW_OPEN | QUOTE | SEMI;
+graphCodeTokens: STADIUMSTART | STADIUMEND | SUBROUTINESTART | SUBROUTINEEND | VERTEX_WITH_PROPS_START | CYLINDERSTART | CYLINDEREND | TRAPSTART | TRAPEND | INVTRAPSTART | INVTRAPEND | PIPE | PS | PE | SQS | SQE | X_DIAMOND_START | X_DIAMOND_STOP
+ | bussiness_task_FIRST
+ | bussiness_task_END
+ | manual_task_FIRST
+ | manual_task_END
+ | script_task_FIRST
+ | script_task_END
+ | send_task_FIRST
+ | send_task_END
+ | service_task_FIRST
+ | service_task_END
+ | receive_task_FIRST
+ | receive_task_END
+ | user_task_FIRST
+ | user_task_END
+ | receive_FIRST | receive_END
+     | intermediate_event_catch_signal_FIRST | intermediate_event_catch_signal_END
+     | compensation_marker_FIRST | compensation_marker_END
+     | start_event_parallel_multiple_FIRST | start_event_parallel_multiple_END
+     | intermediate_event_catch_multiple_FIRST | intermediate_event_catch_multiple_END
+     | end_event_escalation_FIRST | end_event_escalation_END
+     | trash_FIRST | trash_END
+     | start_event_non_interrupting_parallel_multiple_FIRST | start_event_non_interrupting_parallel_multiple_END
+     | data_object_FIRST | data_object_END
+     | end_event_error_FIRST | end_event_error_END
+     | gateway_complex_FIRST | gateway_complex_END
+     | intermediate_event_catch_error_FIRST | intermediate_event_catch_error_END
+     | start_event_non_interrupting_escalation_FIRST | start_event_non_interrupting_escalation_END
+     | intermediate_event_throw_link_FIRST | intermediate_event_throw_link_END
+     | gateway_xor_FIRST | gateway_xor_END
+     | lane_insert_below_FIRST | lane_insert_below_END
+     | gateway_eventbased_FIRST | gateway_eventbased_END
+     | intermediate_event_catch_non_interrupting_escalation_FIRST | intermediate_event_catch_non_interrupting_escalation_END
+     | send_FIRST | send_END
+     | gateway_none_FIRST | gateway_none_END
+     | gateway_parallel_FIRST | gateway_parallel_END
+     | intermediate_event_catch_message_FIRST | intermediate_event_catch_message_END
+     | screw_wrench_FIRST | screw_wrench_END
+     | end_event_multiple_FIRST | end_event_multiple_END
+     | loop_marker_FIRST | loop_marker_END
+     | end_event_link_FIRST | end_event_link_END
+     | data_store_FIRST | data_store_END
+     | start_event_condition_FIRST | start_event_condition_END
+     | intermediate_event_throw_multiple_FIRST | intermediate_event_throw_multiple_END
+     | data_input_FIRST | data_input_END
+     | intermediate_event_catch_non_interrupting_message_FIRST | intermediate_event_catch_non_interrupting_message_END
+     | intermediate_event_none_FIRST | intermediate_event_none_END
+     | intermediate_event_catch_condition_FIRST | intermediate_event_catch_condition_END
+     | parallel_mi_marker_FIRST | parallel_mi_marker_END
+     | lane_insert_above_FIRST | lane_insert_above_END
+     | end_event_terminate_FIRST | end_event_terminate_END
+     | intermediate_event_throw_message_FIRST | intermediate_event_throw_message_END
+     | start_event_signal_FIRST | start_event_signal_END
+     | intermediate_event_catch_non_interrupting_multiple_FIRST | intermediate_event_catch_non_interrupting_multiple_END
+     | intermediate_event_catch_non_interrupting_timer_FIRST | intermediate_event_catch_non_interrupting_timer_END
+     | intermediate_event_throw_compensation_FIRST | intermediate_event_throw_compensation_END
+     | manual_FIRST | manual_END
+     | intermediate_event_catch_compensation_FIRST | intermediate_event_catch_compensation_END
+     | gateway_or_FIRST | gateway_or_END
+     | intermediate_event_catch_timer_FIRST | intermediate_event_catch_timer_END
+     | start_event_none_FIRST | start_event_none_END
+     | start_event_compensation_FIRST | start_event_compensation_END
+     | start_event_non_interrupting_message_FIRST | start_event_non_interrupting_message_END
+     | lane_divide_two_FIRST | lane_divide_two_END
+     | user_FIRST | user_END
+     | intermediate_event_throw_signal_FIRST | intermediate_event_throw_signal_END
+     | start_event_non_interrupting_signal_FIRST | start_event_non_interrupting_signal_END
+     | start_event_message_FIRST | start_event_message_END
+     | end_event_message_FIRST | end_event_message_END
+     | start_event_non_interrupting_timer_FIRST | start_event_non_interrupting_timer_END
+     | business_rule_FIRST | business_rule_END
+     | start_event_error_FIRST | start_event_error_END
+     | hand_tool_FIRST | hand_tool_END
+     | sub_process_marker_FIRST | sub_process_marker_END
+     | intermediate_event_catch_non_interrupting_signal_FIRST | intermediate_event_catch_non_interrupting_signal_END
+     | intermediate_event_catch_non_interrupting_parallel_multiple_FIRST | intermediate_event_catch_non_interrupting_parallel_multiple_END
+     | intermediate_event_catch_non_interrupting_condition_FIRST | intermediate_event_catch_non_interrupting_condition_END
+     | intermediate_event_catch_cancel_FIRST | intermediate_event_catch_cancel_END
+     | ad_hoc_marker_FIRST | ad_hoc_marker_END
+     | intermediate_event_catch_escalation_FIRST | intermediate_event_catch_escalation_END
+     | start_event_timer_FIRST | start_event_timer_END
+     | intermediate_event_catch_link_FIRST | intermediate_event_catch_link_END
+     | start_event_multiple_FIRST | start_event_multiple_END
+     | start_event_non_interrupting_multiple_FIRST | start_event_non_interrupting_multiple_END
+     | start_event_escalation_FIRST | start_event_escalation_END
+     | start_event_non_interrupting_condition_FIRST | start_event_non_interrupting_condition_END
+     | script_FIRST | script_END
+     | data_output_FIRST | data_output_END
+     | end_event_none_FIRST | end_event_none_END
+
+ | end_event_compensation_FIRST |  end_event_compensation_END | DIAMOND_START | DIAMOND_STOP | SENDSTART | SENDEEND | SENDESTART | SENDEND | | TAGSTART | TAGEND | ARROW_CROSS | ARROW_POINT | ARROW_CIRCLE | ARROW_OPEN | QUOTE | SEMI;
 %%
